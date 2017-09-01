@@ -1,5 +1,4 @@
-
-"------ Start Vundle Plugin Management ------" 
+"------ Start Vundle Plugin Management ------"
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
 
@@ -9,12 +8,15 @@ Plugin 'gmarik/vundle'
 " list all plugins that you'd like to install here
 Plugin 'kien/ctrlp.vim' " fuzzy find files
 Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
-Plugin 'benmills/vimux'
+" Plugin 'benmills/vimux'
 Plugin 'tpope/vim-fugitive' " the ultimate git helper
 Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plugin 'vim-syntastic/syntastic' " Syntach checker
 Plugin 'vim-airline/vim-airline' " Badass status bar
 Plugin 'vim-airline/vim-airline-themes' " Themes for the status bar
+Plugin 'wakatime/vim-wakatime' " Wakatime, quantify your coding
+Plugin 'morhetz/gruvbox' " Color scheme and more
+Plugin 'jacoborus/tender.vim' " Color scheme and more
 
 call vundle#end()
 filetype plugin indent on
@@ -28,14 +30,15 @@ let mapleader=','
 
  "------Visuals------"
 syntax on
-colorscheme atom-dark
+colorscheme tender
+set background=dark
 let base16colorspace=256  " Access colors present in 256 colorspace
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 let mapleader = ','
 set linespace=12
 set ttyfast " Faster redrawing
 set laststatus=2 " show the satus line all the time
-"
+
 "------  Start Tab Control (Indentation) ------
 set autoindent " automatically set indent of new line
 set smartindent
@@ -113,7 +116,7 @@ let g:ctrlp_custom_ignore = {
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='luna'
+let g:airline_theme='tender'
 let g:airline#extensions#tabline#enabled = 1 " enable airline tabline
 let g:airline#extensions#tabline#tab_min_count = 2 " only show tabline if tabs are being used (more than 1 tab open)
 let g:airline#extensions#tabline#show_buffers = 0 " do not show open buffers in tabline
@@ -127,6 +130,6 @@ nmap <silent> <leader>gc :Gcommit<cr>
 
 "------ Start Mappings ------
 " edit ~/.vim/vimrc
-map <leader>ev :e! ~/.vim/vimrc<cr>
+map <leader>ev :e! ~/.vim/.vimrc<cr>
 map <leader>mu :e! ~/.tmux.conf<cr>
 "------ End Mappings
