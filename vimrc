@@ -1,26 +1,26 @@
-"------ Start Vundle Plugin Management ------"
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
+"------ Start Plugin Management ------"
+call plug#begin('~/.vim/plugged')
+" List all plugins that you'd like to install here
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'w0rp/ale' " Asynchronous Linting
+Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+Plug 'benmills/vimux'
+Plug 'tpope/vim-fugitive' " the ultimate git helper
+Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+Plug 'vim-airline/vim-airline' " Badass status bar
+Plug 'vim-airline/vim-airline-themes' " Themes for the status bar
+Plug 'wakatime/vim-wakatime' " Wakatime, quantify your coding
+Plug 'morhetz/gruvbox' " Color scheme and more
+Plug 'jacoborus/tender.vim' " Color scheme and more
+Plug 'pangloss/vim-javascript' " Javascript indentation and syntax support
+Plug 'mxw/vim-jsx' " JSX syntax highlighting
+Plug 'leshill/vim-json' " JSON syntax highlight
+Plug 'airblade/vim-gitgutter'
+Plug 'valloric/youcompleteme' " Autocompletion engine
+call plug#end()
 
-" let vundle manage vundle
-Plugin 'gmarik/vundle'
-
-" list all plugins that you'd like to install here
-Plugin 'kien/ctrlp.vim' " fuzzy find files
-Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
-" Plugin 'benmills/vimux'
-Plugin 'tpope/vim-fugitive' " the ultimate git helper
-Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
-Plugin 'vim-syntastic/syntastic' " Syntach checker
-Plugin 'vim-airline/vim-airline' " Badass status bar
-Plugin 'vim-airline/vim-airline-themes' " Themes for the status bar
-Plugin 'wakatime/vim-wakatime' " Wakatime, quantify your coding
-Plugin 'morhetz/gruvbox' " Color scheme and more
-Plugin 'jacoborus/tender.vim' " Color scheme and more
-
-call vundle#end()
 filetype plugin indent on
-"------ End Vundle Plugin Management ------"
+"------ End Plugin Management ------"
 
 set nocompatible " set not compatible with vi
 set autoread " detect when a file is changed
@@ -30,12 +30,12 @@ let mapleader=','
 
  "------Visuals------"
 syntax on
-colorscheme tender
+colorscheme breezy
 set background=dark
 let base16colorspace=256  " Access colors present in 256 colorspace
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 let mapleader = ','
-set linespace=12
+set linespace=10
 set ttyfast " Faster redrawing
 set laststatus=2 " show the satus line all the time
 
@@ -66,31 +66,19 @@ set mat=2 " how many tenths of a second to blink
 set number
 set relativenumber
 
-"------ Start Syntastic settings ------
-let g:syntastic_error_symbol = '❌'
-let g:syntastic_style_error_symbol = '⁉️'
-let g:syntastic_warning_symbol = '⚠️'
-let g:syntastic_style_warning_symbol = '💩'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs = 1
-let g:syntastic_enable_highlighting = 1
+" mxw/vim-jsx
+let g:jsx_ext_required = 0 " Enable JSX highlighting on .js files
 
-highlight link SyntasticErrorSign SignColumn
-highlight link SyntasticWarningSign SignColumn
-highlight link SyntasticStyleErrorSign SignColumn
-highlight link SyntasticStyleWarningSign SignColumn
-highlight SyntasticErrorLine guibg=#2f0000
-highlight SyntasticError guibg=#2f0000
+" Ale linting using standardjs
 autocmd bufwritepost *.js silent !standard --fix %
-
-"------ End Syntastic settings ------
+set autoread
+" Other Ale settings
+let g:ale_lint_on_save = 1
+" let g:ale_lint_on_text_changed = 0
 
 "------ Start NerdTree settings ------
 " close NERDTree after a file is opened
-let g:NERDTreeQuitOnOpen=0
+let g:NERDTreeQuitOnOpen=1
 " show hidden files in NERDTree
 let NERDTreeShowHidden=1
 " Toggle NERDTree
@@ -99,19 +87,6 @@ nmap <silent> <leader>k :NERDTreeToggle<cr>
 nmap <silent> <leader>y :NERDTreeFind<cr>
 "------ End NerdTree settings ------
 
-"------ Start CtrlP settings ------
-nmap <silent> <leader>r :CtrlPBuffer<cr>
-let g:ctrlp_map='<leader>t'
-let g:ctrlp_dotfiles=1
-let g:ctrlp_working_path_mode = 'ra'
-
-" CtrlP ignore patterns
-let g:ctrlp_custom_ignore = {
-            \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
-            \ 'file': '\.exe$\|\.so$'
-            \ }
-"------ End CtrlP settings ------
-
 "------ Start Airline settings (status bar) ------
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
@@ -119,7 +94,7 @@ let g:airline_right_sep=''
 let g:airline_theme='tender'
 let g:airline#extensions#tabline#enabled = 1 " enable airline tabline
 let g:airline#extensions#tabline#tab_min_count = 2 " only show tabline if tabs are being used (more than 1 tab open)
-let g:airline#extensions#tabline#show_buffers = 0 " do not show open buffers in tabline
+let g:airline#extensions#tabline#show_buffers = 1 " do not show open buffers in tabline
 let g:airline#extensions#tabline#show_splits = 0
 "------ End Airline settings (status bar) ------
 
@@ -128,8 +103,15 @@ nmap <silent> <leader>gs :Gstatus<cr>
 nmap <silent> <leader>gc :Gcommit<cr>
 "------ End Fugitive settings (git) ------
 
+" ----- Start FZF file finding ------
+map <leader>ff :FZF .<cr>
+" ----- End FZF file finding ------
+
 "------ Start Mappings ------
 " edit ~/.vim/vimrc
 map <leader>ev :e! ~/.vim/.vimrc<cr>
+" Edit tmux.conf
 map <leader>mu :e! ~/.tmux.conf<cr>
+" Edit zshrc
+map <leader>erc :e! ~/.zshrc<cr>
 "------ End Mappings
