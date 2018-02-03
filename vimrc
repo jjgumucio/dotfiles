@@ -2,6 +2,7 @@
 call plug#begin('~/.vim/plugged')
 " List all plugins that you'd like to install here
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale' " Asynchronous Linting
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 Plug 'benmills/vimux'
@@ -11,12 +12,17 @@ Plug 'vim-airline/vim-airline' " Badass status bar
 Plug 'vim-airline/vim-airline-themes' " Themes for the status bar
 Plug 'wakatime/vim-wakatime' " Wakatime, quantify your coding
 Plug 'morhetz/gruvbox' " Color scheme and more
+Plug 'mhartington/oceanic-next' " Color scheme
 Plug 'jacoborus/tender.vim' " Color scheme and more
 Plug 'pangloss/vim-javascript' " Javascript indentation and syntax support
+Plug 'heavenshell/vim-jsdoc' " Javascript documentation generator (https://github.com/heavenshell/vim-jsdoc)
 Plug 'mxw/vim-jsx' " JSX syntax highlighting
 Plug 'leshill/vim-json' " JSON syntax highlight
 Plug 'airblade/vim-gitgutter'
 Plug 'valloric/youcompleteme' " Autocompletion engine
+Plug 'rizzatti/dash.vim' " Dash documentation app integration
+Plug 'mattn/emmet-vim' " Emmet for Vim
+Plug 'SirVer/ultisnips'
 call plug#end()
 
 filetype plugin indent on
@@ -32,14 +38,25 @@ let mapleader=','
 syntax on
 colorscheme breezy
 set background=dark
-let base16colorspace=256  " Access colors present in 256 colorspace
-set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
+ if (has("termguicolors"))
+  set termguicolors
+ endif
+" set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 let mapleader = ','
 set linespace=10
 set ttyfast " Faster redrawing
 set laststatus=2 " show the satus line all the time
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
 
-"------  Start Tab Control (Indentation) ------
+"------ Start tab management -----
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+"------ End tab management -----
+
+"------  Start Tabulation Control (Indentation) ------
 set autoindent " automatically set indent of new line
 set smartindent
 set expandtab " tabs ftw
@@ -56,11 +73,10 @@ set smartcase " case-sensitive if expression contains a capital letter
 set hlsearch
 set incsearch " set incremental search, like modern browsers
 set nolazyredraw " don't redraw while executing macros
-
 set magic " Set magic on, for regex
-
 set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
+"------ End Search config ------
 
 "----Relative Line Numbers----"
 set number
@@ -91,7 +107,7 @@ nmap <silent> <leader>y :NERDTreeFind<cr>
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='tender'
+let g:airline_theme='oceanicnext'
 let g:airline#extensions#tabline#enabled = 1 " enable airline tabline
 let g:airline#extensions#tabline#tab_min_count = 2 " only show tabline if tabs are being used (more than 1 tab open)
 let g:airline#extensions#tabline#show_buffers = 1 " do not show open buffers in tabline
@@ -99,9 +115,24 @@ let g:airline#extensions#tabline#show_splits = 0
 "------ End Airline settings (status bar) ------
 
 "------ Start Fugitive settings (git) ------
-nmap <silent> <leader>gs :Gstatus<cr>
-nmap <silent> <leader>gc :Gcommit<cr>
+nmap <silent> <leader>gits :Gstatus<cr>
+nmap <silent> <leader>gitc :Gcommit<cr>
 "------ End Fugitive settings (git) ------
+
+"------ Start Javascript settings ------
+let g:javascript_plugin_jsdoc = 1 " Pangloss plugin 
+let g:jsdoc_input_description = 1 " JsDoc plugin
+"------ End Javascript (Pangloss) settings ------
+
+"------ Start UltiSnips settings -----
+let g:UltiSnipsUsePythonVersion=2
+let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsListSnippets="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips" " Where UltiSnips will look for snippet files
+"------ End UltiSnips settings -----
 
 " ----- Start FZF file finding ------
 map <leader>ff :FZF .<cr>

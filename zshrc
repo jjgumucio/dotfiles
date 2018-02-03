@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/jjgl/.oh-my-zsh
+export ZSH=/Users/joaquingumuciolabbe/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -20,7 +20,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=5
+export UPDATE_ZSH_DAYS=1
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -87,22 +87,61 @@ fi
 # Utils aliases
 alias cl="clear"
 
-# Weeshing aliases
-alias wcc="cd /Users/jjgl/Projects/wcc"
-alias wapi="cd /Users/jjgl/Projects/wcc/api && bash start.sh"
-alias wbackend="cd /Users/jjgl/Projects/wcc/backend && bash start.sh"
-alias wproducers="cd /Users/jjgl/Projects/wcc/producers && bash start.sh"
-alias wbrands="cd /Users/jjgl/Projects/wcc/brands && bash start.sh"
-alias wroadmap="cd /Users/jjgl/Projects/wcc/roadmap && bash start.sh"
-alias wstockholders="cd /Users/jjgl/Projects/wcc/stockholders && bash start.sh"
-alias deploy-api="wcc && cd api && DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy weeshing.com"
+# Use NeoVim instead of vim
+# alias vim="nvim"
+
+# ----- Start Weeshing aliases ------
+alias weeshing="cd /Users/joaquingumuciolabbe/Projects/weeshing"
+alias wapi="cd /Users/joaquingumuciolabbe/Projects/weeshing/api && ./start.sh"
+alias wpublic="cd /Users/joaquingumuciolabbe/Projects/weeshing/public && npm start"
+alias wbackend="cd /Users/joaquingumuciolabbe/Projects/weeshing/backend && meteor -p 3020"
+alias wproducers="cd /Users/joaquingumuciolabbe/Projects/weeshing/producers && meteor -p 3030"
 
 # DB Backup
-alias db-backup="mongodump --host candidate.55.mongolayer.com --db production --port 10184 -u jjgl -p Dg342WDDniCY3txkM --out /tmp/weeshing-db"
+alias db-backup="mongodump --host candidate.55.mongolayer.com --db production \
+  --port 10184 -u jjgl -p Dg342WDDniCY3txkM --out /tmp/weeshing-db \
+  --excludeCollection activity_actions \
+  --excludeCollection mails_sent \
+  --excludeCollection orionsoft_activitylogger_actions \
+  --excludeCollection orionsoft_activitylogger_sessions \
+  --excludeCollection event_views \
+  --excludeCollection event_activities \
+  --excludeCollection constest_participants \
+  --excludeCollection roadmap_task_posts \
+  --excludeCollection dictionary \
+  --excludeCollection stockholders_posts_responses\
+  --excludeCollectionsWithPrefix brands"
 alias db-restore="mongorestore -h 127.0.0.1 --port 3001 -d meteor /tmp/weeshing-db/production && rm -rf /tmp/weeshing-db"
 
 # Meteor package dirs
-export METEOR_PACKAGE_DIRS=/Users/jjgl/Projects/wcc/packages:$PACKAGE_DIRS
+export METEOR_PACKAGE_DIRS=/Users/joaquingumuciolabbe/Projects/weeshing/packages
+export MAIL_URL="smtps://AKIAJIUJS3JXVGO3PCIQ:Agk5qHE2I6OV58JdKQJGzHC48F5W2jqYc2v2nB60BARl@email-smtp.us-east-1.amazonaws.com:465"
+# ----- End Weeshing aliases ------
+
+# ----- Stard Sodlab aliases
+alias sodlab="cd /USers/joaquingumuciolabbe/Projects/sodlab"
+
+# Yarn path setup
+export PATH="$PATH:`yarn global bin`"
+
+# Go language workspace
+export GOPATH=$HOME/Projects/golang
+export GOBIN=$HOME/Projects/golang/bin
+
+# Rust-lang source path:
+export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 
 # Avoid file table overflow
 ulimit -n 65536 65536
+
+# Fuzzy file finder setup (FZF)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/usr/local/sbin:$PATH"
+
+# Expo XDE React Editor
+export REACT_EDITOR=mvim
